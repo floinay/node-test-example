@@ -7,7 +7,7 @@ import * as fs from 'fs';
 export class RedditParserService {
     private apiService = new RedditApiService();
 
-    async parse(options: ParseOptionsInterface) {
+    async parse(options: ParseOptionsInterface): Promise<void> {
         let result: RedditApiItemInterface[] = [];
         const queries = this.generateQueries(options);
         for await (let items of queries) {
@@ -16,7 +16,7 @@ export class RedditParserService {
         await this.putResponse(options.category, result);
     }
 
-    private async putResponse(category: string, data: RedditApiItemInterface[]) {
+    private async putResponse(category: string, data: RedditApiItemInterface[]): Promise<void> {
         await fs.writeFile(`./data/${category}.json`, JSON.stringify(data), err => console.error(err));
     }
 
